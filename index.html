@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome | Login</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #cfe9ff, #fef6d8);
+}
+
+/* Glass container */
+.container {
+    width: 380px;
+    padding: 40px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+/* Title */
+.title {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #4da3ff;
+    box-shadow: 0 0 0 2px rgba(77,163,255,0.2);
+}
+
+/* Password toggle */
+.password-wrapper {
+    position: relative;
+}
+
+#togglePassword {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: #4da3ff;
+    cursor: pointer;
+}
+
+/* Button */
+input[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #4da3ff, #2b6cb0);
+    color: #fff;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+input[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Error message */
+#errorMsg {
+    display: none;
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Shake animation */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+}
+
+.shake {
+    animation: shake 0.4s;
+}
+
+/* Loading box */
+#loadingBox {
+    display: none;
+}
+
+.loader {
+    width: 45px;
+    height: 45px;
+    border: 4px solid #ddd;
+    border-top: 4px solid #4da3ff;
+    border-radius: 50%;
+    margin: 20px auto;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="loginBox">
+    <h2 class="title">Welcome</h2>
+    <p class="subtitle">Please log in to continue</p>
+
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" required>
+
+        <div class="password-wrapper">
+            <input type="password" id="password" placeholder="Password" required>
+            <span id="togglePassword">Show</span>
+        </div>
+
+        <p id="errorMsg">Incorrect username or password</p>
+
+        <input type="submit" value="Login">
+    </form>
+</div>
+
+<div class="container" id="loadingBox">
+    <h2 class="title">Entering...</h2>
+    <div class="loader"></div>
+    <p>Please wait</p>
+</div>
+
+<script>
+const passwordInput = document.getElementById("password");
+const togglePassword = document.getElementById("togglePassword");
+const errorMsg = document.getElementById("errorMsg");
+const loginBox = document.getElementById("loginBox");
+
+togglePassword.addEventListener("click", () => {
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        togglePassword.textContent = "Hide";
+    } else {
+        passwordInput.type = "password";
+        togglePassword.textContent = "Show";
+    }
+});
+
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const username = document.getElementById("username").value;
+    const password = passwordInput.value;
+
+    /* UPDATED LOGIN CREDENTIALS */
+    const correctUsername = "Luigi";
+    const correctPassword = "212006";
+
+    if (username === correctUsername && password === correctPassword) {
+        errorMsg.style.display = "none";
+        loginBox.style.display = "none";
+        document.getElementById("loadingBox").style.display = "block";
+
+        setTimeout(() => {
+            window.location.href = "./reflection.html";
+        }, 2000);
+    } else {
+        errorMsg.style.display = "block";
+        passwordInput.value = "";
+
+        loginBox.classList.remove("shake");
+        void loginBox.offsetWidth;
+        loginBox.classList.add("shake");
+    }
+});
+</script>
+
+</body>
+</html>
